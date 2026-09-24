@@ -73,6 +73,8 @@ export const DUR = {
   base: 0.42,
   section: 0.64,
   cinematic: 0.9,
+  ultra: 1.4,
+  chapter: 1.8,
 } as const;
 
 /** Seconds of gap between sibling elements in a staggered group. */
@@ -84,6 +86,8 @@ export const transitions = {
   base: { duration: DUR.base, ease: EASE_BEZIER },
   section: { duration: DUR.section, ease: EASE_BEZIER },
   cinematic: { duration: DUR.cinematic, ease: EASE_BEZIER },
+  ultra: { duration: DUR.ultra, ease: EASE_BEZIER },
+  chapter: { duration: DUR.chapter, ease: EASE_BEZIER },
   spring: { type: 'spring', stiffness: 240, damping: 30, mass: 0.7 },
   springSoft: { type: 'spring', stiffness: 120, damping: 22, mass: 0.9 },
 } as const;
@@ -130,3 +134,23 @@ export const scaleChild = {
 
 /** Standard viewport trigger: fire once, slightly before the element centres. */
 export const viewportOnce = { once: true, amount: 0.25 } as const;
+
+/** 3D camera presets */
+export const CAM = {
+  macroFov: 16,
+  heroFov: 24,
+  orbitFov: 32,
+} as const;
+
+/** Color tokens in Hex for WebGL/Canvas references */
+export const CHAPTER_COLORS = {
+  limestone: '#f6f2eb',
+  travertine: '#ece5d8',
+  surface: '#ffffff',
+  border: '#dcd2c2',
+  walnut: '#221c18',
+  copper: '#9e6b47',
+  copperDeep: '#704424',
+  champagne: '#c29547',
+  fog: '#756b5f',
+} as const;

@@ -290,16 +290,7 @@ export function HeroViewer({
         />
       </Stage>
 
-      {hint && (
-        <p
-          aria-hidden="true"
-          className={`eyebrow eyebrow-dark pointer-events-none absolute bottom-5 left-0 transition-opacity duration-500 ${
-            touched ? 'opacity-0' : 'opacity-100'
-          }`}
-        >
-          Drag to rotate — ← → turn
-        </p>
-      )}
+
 
       <p id={descId} className="sr-only">
         A rendered three-dimensional view of the {product.name} in the {finish.name}{' '}

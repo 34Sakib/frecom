@@ -75,12 +75,13 @@ export const metadata: Metadata = {
     description:
       'Six audio objects, made slowly in one workshop. Studio-lit, rendered live.',
   },
+  icons: { icon: '/icon.svg' },
   robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
-  themeColor: '#0d0b09',
-  colorScheme: 'dark',
+  themeColor: '#f6f2eb',
+  colorScheme: 'light',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

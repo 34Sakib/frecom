@@ -1,36 +1,25 @@
 import Link from 'next/link';
-
-import { SceneAbsent } from '@/components/three/LazyScenes';
 import { getFinish, products } from '@/lib/products';
-
-export const metadata = {
-  title: 'Nothing here',
-  description: 'This page does not exist. The six objects do.',
-};
 
 /**
  * 404
  *
- * A dead end is still a page, so it does the only useful thing a dead end can:
- * puts the whole catalogue in front of you rather than an apology and a button.
- * Static export ships this as `404.html`, which every host will serve for an
- * unknown path.
+ * A dead end is still a page: displays the exhibition collection.
+ * Note: not-found.tsx in Next.js does not support metadata export.
  */
 export default function NotFound() {
   return (
-    <>
-      <SceneAbsent />
-
+    <main className="min-h-screen bg-ink text-bone">
       <section className="shell pb-[clamp(2.5rem,6vw,4rem)] pt-[clamp(7rem,17vh,11rem)]">
         <div className="grid gap-y-10 lg:grid-cols-12 lg:gap-x-8">
           <div className="lg:col-span-8">
-            <p className="eyebrow eyebrow-dark">Error 404</p>
+            <p className="eyebrow text-copper">Exhibition Archive · Error 404</p>
             <h1 className="display-face mt-7 text-h1 text-bone">
-              This page was never made.
+              This chamber was never opened.
             </h1>
             <p className="mt-7 max-w-[46ch] text-lede text-mist/85">
-              The six objects were, though. Everything the workshop builds is below,
-              and the link you followed was probably one of them.
+              The six exhibition objects exist, however. Everything the atelier crafts
+              is documented below.
             </p>
           </div>
         </div>
@@ -41,7 +30,7 @@ export default function NotFound() {
           {products.map((product) => (
             <li key={product.slug}>
               <Link
-                href={`/products/${product.slug}`}
+                href={`/collection/${product.slug}`}
                 className="group grid grid-cols-12 items-baseline gap-4 border-b border-line py-6"
               >
                 <span className="eyebrow eyebrow-dark col-span-3 sm:col-span-2">
@@ -62,14 +51,14 @@ export default function NotFound() {
         </ul>
 
         <div className="mt-12 flex flex-wrap items-center gap-6">
-          <Link href="/products" className="btn btn-solid">
-            All objects
+          <Link href="/collection" className="btn btn-copper">
+            Exhibition Collection
           </Link>
           <Link href="/" className="eyebrow link-line text-copper">
-            Back to the front →
+            Return to Entrance →
           </Link>
         </div>
       </section>
-    </>
+    </main>
   );
 }

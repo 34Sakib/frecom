@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { cartCount, useCart, useUi } from '@/lib/store';
+import { useUi } from '@/lib/store';
 import { lockScroll, scrollToTop } from '@/lib/scroll';
 import { trapTabKey } from '@/lib/a11y';
 import { DUR, EASE_BEZIER } from '@/lib/tokens';
@@ -14,22 +14,15 @@ import { useMediaQuery } from '@/lib/hooks';
 /**
  * HEADER
  *
- * Fixed, transparent over the top of every page and condensed once the page has
- * actually moved. The state flips on a scroll read, not a scroll listener per
- * frame: progress is written straight to a transform, and only the boolean that
- * changes the treatment is React state.
- *
- * The hairline under it is real scroll progress. On long pages it is the only
- * honest answer to "how much of this is left", so it earns its place — and it is
- * scroll-driven, so it does not count as decorative motion under reduced motion.
- *
- * Below lg the links move into a full-screen panel. That panel is a real dialog:
- * scroll lock, Escape, a focus trap, and focus returned to the page on close.
+ * Fixed, obsidian glassmorphic header over the top of every exhibition page.
+ * The hairline underneath is real scroll progress.
+ * High-end digital showroom navigation: Objects, Atelier, Contact.
  */
 
 const LINKS = [
-  { href: '/products', label: 'Objects' },
+  { href: '/collection', label: 'Objects' },
   { href: '/about', label: 'Atelier' },
+  { href: '/contact', label: 'Contact' },
 ];
 
 function isCurrent(pathname: string, href: string) {
@@ -38,7 +31,7 @@ function isCurrent(pathname: string, href: string) {
 
 function Wordmark() {
   return (
-    <span className="display-face text-[1.3rem] leading-none tracking-[-0.03em] text-bone">
+    <span className="display-face text-[1.35rem] leading-none tracking-[-0.03em] text-bone">
       Frecom
       <span className="text-copper">.</span>
     </span>
@@ -52,18 +45,6 @@ export function Nav() {
 
   const menuOpen = useUi((s) => s.menuOpen);
   const setMenuOpen = useUi((s) => s.setMenuOpen);
-
-  const lines = useCart((s) => s.lines);
-  const cartReady = useCart((s) => s.ready);
-  const hydrateCart = useCart((s) => s.hydrate);
-  const count = cartReady ? cartCount(lines) : 0;
-
-  // The header is on every route, so this is the one place the persisted cart is
-  // deliberately read back. The store skips hydration at import time so the
-  // exported HTML never claims a bag the client cannot reproduce.
-  useEffect(() => {
-    hydrateCart();
-  }, [hydrateCart]);
 
   const bar = useRef<HTMLDivElement>(null);
   const panel = useRef<HTMLDivElement>(null);
@@ -98,9 +79,6 @@ export function Nav() {
 
   const close = useCallback(() => setMenuOpen(false), [setMenuOpen]);
 
-  // A navigation always ends the dialog, and so does growing past the breakpoint
-  // that no longer has a menu button — otherwise the page would stay scroll-locked
-  // with nothing on screen to release it.
   useEffect(() => {
     setMenuOpen(false);
   }, [pathname, setMenuOpen]);
@@ -136,7 +114,7 @@ export function Nav() {
       <header
         className={[
           'fixed inset-x-0 top-0 z-[70]',
-          condensed && !menuOpen ? 'bg-ink/85 backdrop-blur-xl' : 'bg-transparent',
+          condensed && !menuOpen ? 'bg-ink/80 backdrop-blur-xl' : 'bg-transparent',
         ].join(' ')}
       >
         <div
@@ -167,7 +145,7 @@ export function Nav() {
                       href={link.href}
                       aria-current={current ? 'page' : undefined}
                       className={`eyebrow link-line py-2 transition-colors duration-200 ease-[var(--ease-exp)] ${
-                        current ? 'text-bone' : 'text-mist hover:text-bone'
+                        current ? 'text-bone' : 'text-fog hover:text-bone'
                       }`}
                     >
                       {link.label}
@@ -176,26 +154,12 @@ export function Nav() {
                 })}
               </nav>
 
-              <Link
-                href="/cart"
-                aria-current={isCurrent(pathname, '/cart') ? 'page' : undefined}
-                aria-label={count > 0 ? `Bag, ${count} item${count === 1 ? '' : 's'}` : 'Bag'}
-                className="eyebrow link-line flex items-center gap-2 py-2 text-mist transition-colors duration-200 ease-[var(--ease-exp)] hover:text-bone"
-              >
-                Bag
-                {count > 0 && (
-                  <span className="tabular inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-copper px-1 text-[0.625rem] leading-none tracking-normal text-white">
-                    {count}
-                  </span>
-                )}
-              </Link>
-
               <button
                 type="button"
                 onClick={() => setMenuOpen(true)}
                 aria-expanded={menuOpen}
                 aria-controls="site-menu"
-                className="eyebrow -mr-1 flex items-center gap-2.5 py-2 text-mist transition-colors duration-200 ease-[var(--ease-exp)] hover:text-bone lg:hidden"
+                className="eyebrow -mr-1 flex items-center gap-2.5 py-2 text-fog transition-colors duration-200 ease-[var(--ease-exp)] hover:text-bone lg:hidden"
               >
                 Menu
                 <span aria-hidden="true" className="flex flex-col gap-[5px]">
@@ -207,8 +171,7 @@ export function Nav() {
           </div>
         </div>
 
-        {/* Real read position, drawn as a hairline. Decorative to a screen
-            reader — the page itself is the progress indicator. */}
+        {/* Scroll progress hairline */}
         <div aria-hidden="true" className="shell">
           <div className="h-px w-full overflow-hidden">
             <div
@@ -235,7 +198,7 @@ export function Nav() {
             animate={{ opacity: 1, y: 0 }}
             exit={reduced ? { opacity: 0 } : { opacity: 0, y: -8 }}
             transition={{ duration: DUR.section, ease: EASE_BEZIER }}
-            className="fixed inset-0 z-[88] flex flex-col bg-[#f7f3ec] outline-none lg:hidden"
+            className="fixed inset-0 z-[88] flex flex-col bg-ink outline-none lg:hidden"
           >
             <div className="shell flex h-16 shrink-0 items-center justify-between">
               <Wordmark />
@@ -243,7 +206,7 @@ export function Nav() {
                 type="button"
                 onClick={close}
                 aria-label="Close menu"
-                className="eyebrow -mr-1 flex items-center gap-2 py-2 text-mist transition-colors duration-200 ease-[var(--ease-exp)] hover:text-bone"
+                className="eyebrow -mr-1 flex items-center gap-2 py-2 text-fog transition-colors duration-200 ease-[var(--ease-exp)] hover:text-bone"
               >
                 Close
                 <span aria-hidden="true" className="text-base leading-none">
@@ -258,7 +221,7 @@ export function Nav() {
             >
               <div className="shell pb-20 pt-10">
                 <ul className="list-none">
-                  {[...LINKS, { href: '/cart', label: 'Bag' }].map((link) => (
+                  {LINKS.map((link) => (
                     <li key={link.href} className="border-t border-line last:border-b">
                       <Link
                         href={link.href}
@@ -266,20 +229,17 @@ export function Nav() {
                         className="display-face flex items-baseline justify-between gap-6 py-5 text-h2 text-bone"
                       >
                         {link.label}
-                        {link.href === '/cart' && count > 0 && (
-                          <span className="eyebrow tabular text-copper">{count}</span>
-                        )}
                       </Link>
                     </li>
                   ))}
                 </ul>
 
-                <p className="eyebrow eyebrow-dark mt-14">Six objects</p>
+                <p className="eyebrow eyebrow-dark mt-14">Six objects in exhibition</p>
                 <ul className="mt-6 list-none">
                   {products.map((product) => (
                     <li key={product.slug}>
                       <Link
-                        href={`/products/${product.slug}`}
+                        href={`/collection/${product.slug}`}
                         onClick={close}
                         className="flex items-baseline justify-between gap-6 border-b border-line py-3.5"
                       >
@@ -295,8 +255,8 @@ export function Nav() {
             <div className="shell shrink-0 border-t border-line py-5">
               <p className="text-small text-fog">
                 Studio enquiries —{' '}
-                <a href="mailto:studio@frecom.example" className="link-line text-copper">
-                  studio@frecom.example
+                <a href="mailto:studio@frecom.audio" className="link-line text-copper">
+                  studio@frecom.audio
                 </a>
               </p>
             </div>

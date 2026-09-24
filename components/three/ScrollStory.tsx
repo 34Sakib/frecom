@@ -115,7 +115,6 @@ export function ScrollStory({
       end: 'bottom bottom',
       onUpdate: (self) => {
         progress.current = self.progress;
-        // Drawn straight to the DOM — a transform write, not a React render.
         if (rail.current) rail.current.style.transform = `scaleY(${self.progress})`;
         const next = Math.min(
           beats.length - 1,
@@ -157,7 +156,7 @@ export function ScrollStory({
         <h2 className="eyebrow eyebrow-dark">{label}</h2>
         <div className="mt-12 grid gap-px bg-line lg:grid-cols-3">
           {beats.map((beat) => (
-            <article key={beat.id} className="bg-white p-8 lg:p-10 border border-line shadow-xs">
+            <article key={beat.id} className="bg-surface p-8 lg:p-10 border border-line shadow-soft">
               <p className="eyebrow eyebrow-dark">{beat.label}</p>
               <h3 className="display-face mt-8 text-h3 text-bone text-balance">
                 {beat.title}
@@ -173,6 +172,7 @@ export function ScrollStory({
             target={framing.target}
             fov={framing.fov}
             shadowScale={10}
+            ambient={<AmbientLayer intensity={0.8} octaves={3} />}
             fallback={
               <PosterFallback
                 kind={product.model}
@@ -221,10 +221,10 @@ export function ScrollStory({
           <ProductModel kind={product.model} finish={finish} />
         </Stage>
 
-        {/* Scrim: keeps the type legible over the render without dimming the object. */}
+        {/* Scrim: rich architectural limestone gradient for crystal clear text readability over 3D render */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-linear-to-t from-[#f7f3ec] via-[#f7f3ec]/70 to-transparent lg:bg-linear-to-r lg:from-[#f7f3ec] lg:via-[#f7f3ec]/55 lg:to-transparent"
+          className="pointer-events-none absolute inset-0 bg-linear-to-t from-[#f6f2eb] via-[#f6f2eb]/75 to-transparent lg:bg-linear-to-r lg:from-[#f6f2eb] lg:via-[#f6f2eb]/60 lg:to-transparent"
         />
 
         <div className="pointer-events-none absolute inset-0">
@@ -245,13 +245,13 @@ export function ScrollStory({
                     <h3 className="display-face mt-6 text-h2 text-bone text-balance">
                       {beat.title}
                     </h3>
-                    <p className="mt-6 max-w-[46ch] text-lede text-mist/85">{beat.body}</p>
+                    <p className="mt-6 max-w-[46ch] text-lede text-mist/90">{beat.body}</p>
                   </article>
                 ))}
               </div>
             </div>
 
-            {/* Index rail — a real progress reading, driven by the same trigger. */}
+            {/* Index rail */}
             <div className="hidden lg:col-span-4 lg:col-start-9 lg:flex lg:items-center lg:justify-end">
               <div className="flex items-center gap-6">
                 <span className="eyebrow eyebrow-dark tabular">

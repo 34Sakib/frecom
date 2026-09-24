@@ -11,13 +11,8 @@ import { usePointerRef } from '@/lib/hooks';
  * One full-screen quad and one points cloud: two draw calls for the entire
  * background layer, regardless of how much is happening in the shader.
  *
- * The quad ignores the camera entirely (its vertex shader writes clip space
- * directly), so it costs nothing to keep behind the product at any camera
- * distance — which matters because the scroll story moves the camera a lot.
- *
- * Palette is passed as raw sRGB component values rather than THREE.Color, since
- * a raw ShaderMaterial bypasses three's linear→sRGB output conversion. Authoring
- * in sRGB here is what keeps the backdrop colour-identical to the CSS palette.
+ * Rich architectural palette: limestone alabaster, honed travertine,
+ * and burnished copper light.
  */
 
 const vertexShader = /* glsl */ `
@@ -70,19 +65,18 @@ const fragmentShader = /* glsl */ `
     vec2 uv = vUv;
     vec2 p = (uv - 0.5) * vec2(1.7, 1.0);
 
-    // Pointer parallax is deliberately tiny: the backdrop should feel aware of
-    // the cursor, never follow it.
-    p += uPointer * 0.055;
+    // Subtle pointer parallax
+    p += uPointer * 0.045;
 
     float t = uTime * 0.032;
     float f = fbm(p * 1.35 + vec2(t, -t * 0.7) + uScroll * 0.28);
 
-    // A soft warm pool of sand/gold light behind the object, drifting slowly on bone/cream
-    float pool = smoothstep(0.75, 0.0, length(p - vec2(0.04, -0.02) * 1.0));
-    pool *= 0.6 + 0.4 * f;
+    // A soft warm pool of travertine light behind the object
+    float pool = smoothstep(0.85, 0.0, length(p - vec2(0.03, -0.01)));
+    pool *= 0.5 + 0.5 * f;
 
-    vec3 col = mix(uInk, uWarm, pool * 0.5);
-    col = mix(col, uAccent, smoothstep(0.7, 1.0, f) * 0.06);
+    vec3 col = mix(uInk, uWarm, pool * 0.6);
+    col = mix(col, uAccent, smoothstep(0.7, 1.0, f) * 0.05);
 
     gl_FragColor = vec4(col, 1.0);
   }
@@ -107,16 +101,18 @@ export function AmbientLayer({
       uPointer: { value: new THREE.Vector2(0, 0) },
       uScroll: { value: 0 },
       uIntensity: { value: intensity },
-      // sRGB values matching:
-      // uInk = #F7F3EC (bone/cream), uWarm = #EFE7DA (sand), uAccent = #8A6D3B (gold/bronze)
-      uInk: { value: new THREE.Vector3(0.969, 0.953, 0.925) },
-      uWarm: { value: new THREE.Vector3(0.937, 0.906, 0.855) },
-      uAccent: { value: new THREE.Vector3(0.541, 0.427, 0.231) },
+      // Rich architectural limestone & travertine studio palette:
+      // uInk = #F6F2EB (limestone alabaster base)
+      // uWarm = #ECE5D8 (honed travertine)
+      // uAccent = #C29547 (warm champagne/copper reflection)
+      uInk: { value: new THREE.Vector3(0.965, 0.949, 0.922) },
+      uWarm: { value: new THREE.Vector3(0.925, 0.898, 0.847) },
+      uAccent: { value: new THREE.Vector3(0.761, 0.584, 0.278) },
     }),
     [intensity],
   );
 
-  const moteCount = octaves > 2 ? 80 : 40;
+  const moteCount = octaves > 2 ? 70 : 35;
   const motePositions = useMemo(() => {
     const arr = new Float32Array(moteCount * 3);
     for (let i = 0; i < moteCount; i++) {
@@ -140,9 +136,8 @@ export function AmbientLayer({
     uniforms.uScroll.value = scroll.current;
 
     if (group.current) {
-      // Dust drifts upward and turns almost imperceptibly.
-      group.current.rotation.y = state.clock.elapsedTime * 0.016;
-      group.current.position.y = Math.sin(state.clock.elapsedTime * 0.18) * 0.06;
+      group.current.rotation.y = state.clock.elapsedTime * 0.014;
+      group.current.position.y = Math.sin(state.clock.elapsedTime * 0.16) * 0.06;
     }
   });
 
@@ -171,9 +166,9 @@ export function AmbientLayer({
             </bufferGeometry>
             <pointsMaterial
               size={0.02}
-              color="#8a6d3b"
+              color="#9e6b47"
               transparent
-              opacity={0.25}
+              opacity={0.22}
               sizeAttenuation
               depthWrite={false}
             />

@@ -1,40 +1,47 @@
 @import 'tailwindcss';
 
 /* ============================================================================
-   FRE.COM — DESIGN TOKENS
-   Single source of truth. Mirrored in lib/tokens.ts so GSAP timelines and
-   Framer Motion variants read the exact same easing/duration values as CSS.
-   Palette is deliberately warm-tinted: no pure #000, no pure #fff.
+   FRECOM — LUXURY ARCHITECTURAL DESIGN TOKENS
+   Art-directed rich palette: warm architectural limestone, honed travertine,
+   deep roasted walnut typography, and burnished copper accents.
+   Non-black, tactile, museum-grade editorial presence.
    ========================================================================= */
 
 @theme {
-  /* ---- Light / Beige "Quiet Luxury" Palette (Aesop / COS / Jacquemus Aesthetic) - */
-  --color-bg: #f7f3ec;          /* warm bone/cream — main background */
-  --color-bg-alt: #efe7da;      /* slightly deeper sand — section alternation */
-  --color-surface: #ffffff;     /* pure white — card surfaces for contrast pop */
-  --color-text: #2a2420;        /* warm near-black espresso — never pure #000 */
-  --color-text-muted: #7a6f62;  /* soft taupe — secondary text, labels */
-  --color-border: #dcd2c2;      /* subtle hairline borders/dividers */
-  --color-accent: #8a6d3b;      /* muted gold/bronze — CTAs, highlights */
-  --color-accent-deep: #5c4a2a; /* pressed/hover state of accent */
+  /* ---- Rich Architectural Limestone & Travertine Palette ----------------- */
+  --color-bg: #f6f2eb;          /* warm limestone / architectural alabaster */
+  --color-bg-alt: #ece5d8;      /* honed travertine / sand */
+  --color-surface: #ffffff;     /* crisp pure white card surfaces for product pop */
+  --color-text: #221c18;        /* deep roasted espresso / walnut ink — never pitch black */
+  --color-text-muted: #756b5f;  /* warm stone taupe */
+  --color-border: #dcd2c2;      /* delicate stone hairline */
+  --color-accent: #9e6b47;      /* rich burnished copper */
+  --color-accent-deep: #704424; /* deep pressed copper */
 
   /* Mapped semantic aliases */
-  --color-ink: #f7f3ec;         /* base canvas surface */
-  --color-ink-800: #ffffff;     /* elevated card surface (pure white) */
-  --color-ink-700: #efe7da;     /* sand alt surface / inputs */
+  --color-ink: #f6f2eb;         /* base canvas surface */
+  --color-ink-800: #ffffff;     /* elevated card surface (crisp white) */
+  --color-ink-700: #ece5d8;     /* sand / travertine alt surface */
   --color-line: #dcd2c2;        /* hairline border */
   --color-line-soft: #e7decb;   /* soft hairline */
 
-  --color-bone: #2a2420;        /* primary high-contrast headings/text (espresso) */
-  --color-bone-dim: #443c36;
+  --color-bone: #221c18;        /* primary high-contrast espresso headings */
+  --color-bone-dim: #38302a;    /* softer espresso */
   --color-bone-line: #dcd2c2;
 
-  --color-copper: #8a6d3b;      /* muted gold/bronze accent */
-  --color-copper-ink: #5c4a2a;  /* deep bronze */
+  --color-copper: #9e6b47;      /* burnished copper */
+  --color-copper-ink: #704424;  /* deep copper */
 
-  --color-ash: #7a6f62;         /* soft taupe */
-  --color-fog: #7a6f62;         /* secondary/muted text */
-  --color-mist: #3d3630;        /* high-contrast espresso body copy */
+  --color-ash: #756b5f;         /* secondary muted */
+  --color-fog: #756b5f;         /* secondary editorial text */
+  --color-mist: #332d28;        /* high-contrast readable body text */
+
+  /* Luxury material palette */
+  --color-champagne: #c29547;
+  --color-platinum: #dcd9d3;
+  --color-emerald: #24463a;
+  --color-burgundy: #54222a;
+  --color-midnight: #1a273b;
 
   /* ---- Type -------------------------------------------------------------- */
   --font-display: var(--font-display-face), ui-serif, Georgia, serif;
@@ -76,22 +83,22 @@
 
   --text-label: 0.6875rem;
   --text-label--line-height: 1;
-  --text-label--letter-spacing: 0.2em;
+  --text-label--letter-spacing: 0.22em;
 
-  /* ---- Spacing: 4 / 8pt base, generous by default ------------------------ */
+  /* ---- Spacing: 4 / 8pt base --------------------------------------------- */
   --spacing: 0.25rem;
-  --space-section: clamp(5.5rem, 11vh, 10.5rem);
+  --space-section: clamp(6rem, 13vh, 11.5rem);
   --space-gutter: clamp(1.25rem, 5vw, 5rem);
 
-  /* ---- Radius: ONE soft scale, consistent ratio. No mixed language. ------ */
+  /* ---- Radius: ONE soft scale -------------------------------------------- */
   --radius-xs: 3px;
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 18px;
   --radius-xl: 30px;
 
-  /* ---- Motion: shared by CSS, GSAP and Framer Motion -------------------- */
-  --ease-exp: cubic-bezier(0.16, 1, 0.3, 1); /* the site-wide "expensive" curve */
+  /* ---- Motion: shared tokens -------------------------------------------- */
+  --ease-exp: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
   --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
 
@@ -100,10 +107,10 @@
   --duration-section: 640ms;
   --duration-cinematic: 900ms;
 
-  /* ---- Elevation: soft, warm-tinted studio light. Never cold grey. ------ */
-  --shadow-soft: 0 20px 48px -24px rgba(74, 56, 34, 0.09);
-  --shadow-lift: 0 32px 72px -32px rgba(74, 56, 34, 0.14);
-  --shadow-inset: inset 0 1px 0 0 rgba(255, 255, 255, 0.6);
+  /* ---- Elevation: soft, warm architectural studio light ------------------ */
+  --shadow-soft: 0 20px 48px -20px rgba(54, 40, 25, 0.09);
+  --shadow-lift: 0 32px 72px -28px rgba(54, 40, 25, 0.15);
+  --shadow-inset: inset 0 1px 0 0 rgba(255, 255, 255, 0.8);
 
   --ease-exp-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -121,7 +128,8 @@
 
   html {
     -webkit-text-size-adjust: 100%;
-    scroll-behavior: auto; /* Lenis owns scrolling */
+    scroll-behavior: auto;
+    background: #f6f2eb;
   }
 
   body {
@@ -138,7 +146,6 @@
     overflow-x: clip;
   }
 
-  /* Lenis: page scrolls on <html>/<body>; canvas is fixed, so it never fights. */
   body[data-lenis-locked] {
     overflow: hidden;
   }
@@ -186,7 +193,6 @@
     max-width: 100%;
   }
 
-  /* Visible, on-brand focus ring — never removed, only styled. */
   :focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 3px;
@@ -199,22 +205,22 @@
   }
 
   ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
   }
   ::-webkit-scrollbar-track {
     background: var(--color-bg);
   }
   ::-webkit-scrollbar-thumb {
-    background: #d5cbba;
-    border: 3px solid var(--color-bg);
-    border-radius: var(--radius-full, 999px);
+    background: #d4cbba;
+    border: 2px solid var(--color-bg);
+    border-radius: 999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-text-muted);
+    background: #b5a995;
   }
 
-  /* Lenis required rules (inlined instead of importing its stylesheet). */
+  /* Lenis rules */
   html.lenis,
   html.lenis body {
     height: auto;
@@ -232,8 +238,6 @@
     pointer-events: none;
   }
 
-  /* Reduced motion: the site stays fully usable, it simply stops moving.
-     Opacity/colour transitions are kept (they aid comprehension, not spectacle). */
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -265,11 +269,10 @@
     padding-inline: var(--space-gutter);
   }
 
-  /* All-caps tracked eyebrow — the editorial "label" voice. */
   .eyebrow {
     font-family: var(--font-mono);
     font-size: var(--text-label);
-    letter-spacing: 0.2em;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
     line-height: 1;
     color: var(--color-ash);
@@ -291,7 +294,6 @@
     background: var(--color-bone-line);
   }
 
-  /* Buttons: one geometry language, two weights. */
   .btn {
     position: relative;
     display: inline-flex;
@@ -309,7 +311,8 @@
       background-color var(--duration-micro) var(--ease-exp),
       color var(--duration-micro) var(--ease-exp),
       border-color var(--duration-micro) var(--ease-exp),
-      opacity var(--duration-micro) var(--ease-exp);
+      box-shadow var(--duration-micro) var(--ease-exp),
+      transform var(--duration-micro) var(--ease-exp);
   }
 
   .btn-solid {
@@ -317,16 +320,19 @@
     color: var(--color-bg);
   }
   .btn-solid:hover {
-    background: #14110f;
+    background: #0d0a08;
     color: #ffffff;
+    box-shadow: var(--shadow-lift);
   }
 
   .btn-copper {
     background: var(--color-accent);
     color: #ffffff;
+    font-weight: 500;
   }
   .btn-copper:hover {
     background: var(--color-accent-deep);
+    box-shadow: 0 8px 24px -6px rgba(158, 107, 71, 0.35);
   }
 
   .btn-ghost {
@@ -337,7 +343,7 @@
   .btn-ghost:hover {
     border-color: var(--color-text);
     color: var(--color-text);
-    background: rgba(42, 36, 32, 0.04);
+    background: rgba(34, 28, 24, 0.04);
   }
 
   .btn-ink {
@@ -346,17 +352,16 @@
     background: var(--color-surface);
   }
   .btn-ink:hover {
-    background: var(--color-text);
-    color: var(--color-bg);
+    background: var(--color-bg-alt);
+    border-color: var(--color-text-muted);
   }
 
   .btn[disabled],
   .btn[aria-disabled='true'] {
-    opacity: 0.45;
+    opacity: 0.4;
     pointer-events: none;
   }
 
-  /* Animated underline for inline text links. */
   .link-line {
     position: relative;
     display: inline-block;
@@ -378,7 +383,6 @@
     transform: scaleX(1);
   }
 
-  /* Section tonal backgrounds */
   .surface-bone {
     background: var(--color-bg);
     color: var(--color-text);
@@ -402,16 +406,16 @@
     border-radius: var(--radius-sm);
     color: var(--color-text);
     font-size: 0.9375rem;
-    box-shadow: 0 1px 3px rgba(74, 56, 34, 0.04);
+    box-shadow: 0 1px 3px rgba(34, 28, 24, 0.04);
     transition: border-color var(--duration-micro) var(--ease-exp), box-shadow var(--duration-micro) var(--ease-exp);
   }
   .field:hover {
-    border-color: #c9bea8;
+    border-color: #beb19d;
   }
   .field:focus {
     outline: none;
     border-color: var(--color-accent);
-    box-shadow: 0 0 0 3px rgba(138, 109, 59, 0.15);
+    box-shadow: 0 0 0 3px rgba(158, 107, 71, 0.15);
   }
   .field::placeholder {
     color: var(--color-text-muted);
@@ -431,13 +435,12 @@
    UTILITIES
    ========================================================================= */
 
-/* Film grain — generated by the browser, no image asset shipped. */
 @utility grain {
   position: relative;
 }
 
 @utility grain-layer {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.42'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
 }
 
 @utility text-balance {
@@ -448,7 +451,6 @@
   mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
 }
 
-/* Editorial display type: optical niceties that the utility classes can't express. */
 @utility display-face {
   font-family: var(--font-display);
   font-weight: 400;
@@ -474,12 +476,8 @@
 
 /* ============================================================================
    KEYFRAMES
-   For loops that are pure transforms with nothing to compute per frame — CSS is
-   the cheaper host for those. The reduced-motion block above zeroes every
-   duration, so each of these settles at its start state and stays legible.
    ========================================================================= */
 
-/* Two identical copies inside one track; -50% is exactly one copy. */
 @keyframes marquee-x {
   from {
     transform: translate3d(0, 0, 0);

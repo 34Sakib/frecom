@@ -17,10 +17,7 @@ import { DUR, EASE_BEZIER } from '@/lib/tokens';
 
 /**
  * The peek panel is the only part of the catalogue that needs three.js, and it is
- * fetched only on a device that will actually draw it — same budget as every
- * other canvas: a pointer that can hover, a device past the WebGL probe, and no
- * reduced-motion preference, since a panel that follows the cursor is exactly the
- * motion that preference refuses.
+ * fetched only on a device that will actually draw it.
  */
 const PeekPanel = dynamic(
   () => import('@/components/three/PeekPanel').then((m) => m.PeekPanel),
@@ -28,15 +25,10 @@ const PeekPanel = dynamic(
 );
 
 /**
- * CATALOGUE
+ * CATALOGUE / EXHIBITION BROWSER
  *
- * Filters and sorts are the only stateful controls on the route and they are real
- * controls: toggle buttons that announce their own pressed state, a native
- * `<select>` for sort (the platform's own listbox is better than any custom one),
- * and a live region reporting how many objects survived the filter.
- *
- * Filtering happens in memory — the whole catalogue is six objects, authored at
- * build time — so there is no loading state to fake and nothing to prefetch.
+ * Filter bar and asymmetric collection grid with real-time category sorting
+ * and 3D pointer hover previews.
  */
 export function CatalogBrowser({ products }: { products: Product[] }) {
   const cap = useCapability();
@@ -46,7 +38,7 @@ export function CatalogBrowser({ products }: { products: Product[] }) {
   const [categoryId, setCategoryId] = useState<string>('all');
   const [sort, setSort] = useState<SortId>('designed');
 
-  // Read URL query param on mount so direct links from category tiles filter immediately
+  // Read URL query param on mount so direct links filter immediately
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const params = new URLSearchParams(window.location.search);
@@ -79,7 +71,7 @@ export function CatalogBrowser({ products }: { products: Product[] }) {
 
   return (
     <>
-      <div className="sticky top-16 z-30 border-y border-line bg-[#f7f3ec]/90 backdrop-blur-xl lg:top-20">
+      <div className="sticky top-16 z-30 border-y border-line bg-ink/80 backdrop-blur-xl lg:top-20">
         <div className="shell flex flex-wrap items-center gap-x-8 gap-y-3 py-3">
           <div
             role="group"
@@ -96,13 +88,13 @@ export function CatalogBrowser({ products }: { products: Product[] }) {
                     aria-pressed={active}
                     onClick={() => setCategoryId(category.id)}
                     className={`relative py-2 text-small transition-colors duration-200 ease-[var(--ease-exp)] ${
-                      active ? 'text-bone' : 'text-mist hover:text-bone'
+                      active ? 'text-bone' : 'text-fog hover:text-bone'
                     }`}
                   >
                     {category.name}
                     <span
                       className={`eyebrow tabular ml-2 ${
-                        active ? 'text-copper' : 'eyebrow-dark'
+                        active ? 'text-copper' : 'text-ash'
                       }`}
                     >
                       {counts.get(category.id) ?? 0}
@@ -128,8 +120,6 @@ export function CatalogBrowser({ products }: { products: Product[] }) {
           </div>
 
           <div className="order-3 flex items-center gap-6 sm:order-2">
-            {/* The one number on the page that changes without a navigation, so
-                it is the one number that has to say so out loud. */}
             <p aria-live="polite" className="eyebrow eyebrow-dark tabular">
               {shown.length} of {products.length}
             </p>
@@ -140,7 +130,7 @@ export function CatalogBrowser({ products }: { products: Product[] }) {
                 <select
                   value={sort}
                   onChange={(e) => setSort(e.target.value as SortId)}
-                  className="field w-auto cursor-pointer appearance-none py-2 pl-3 pr-9 text-small"
+                  className="field w-auto cursor-pointer appearance-none py-2 pl-3 pr-9 text-small bg-surface border-line text-bone"
                 >
                   {sorts.map((option) => (
                     <option key={option.id} value={option.id}>
@@ -161,8 +151,6 @@ export function CatalogBrowser({ products }: { products: Product[] }) {
       </div>
 
       <div className="shell pb-[var(--space-section)] pt-[clamp(2.5rem,6vw,4.5rem)]">
-        {/* Hidden but real: the cards below are h3, so without this the outline
-            jumps h1 → h3. The filter bar already names the list on screen. */}
         <h2 className="sr-only">All objects</h2>
         <ProductGrid products={shown} />
       </div>
